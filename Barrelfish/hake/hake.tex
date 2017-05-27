@@ -1,0 +1,513 @@
+\documentclass[a4paper, 12pt]{report}
+%import package
+%use xelatex to compile please ！
+\usepackage{amsmath}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage[svgnames, table]{xcolor}
+\usepackage{indentfirst}
+\usepackage[CJKchecksingle, CJKnumber]{xeCJK}
+%\usepackage{metalogo}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage[rm]{titlesec}% 改变章节标题格式
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+%code highlight
+\lstset{
+    language = C,
+    basicstyle = \ttfamily \small,
+    flexiblecolumns = false,
+    tabsize = 4,
+    breaklines = true,
+    basewidth = {0.5em, 0.45em},
+    boxpos = t,
+    backgroundcolor = \color[RGB]{245,245,244},
+    keywordstyle = \bf\color{blue},
+    %identifierstyle = \bf,
+    commentstyle = \color[RGB]{0,139,0},
+    numberstyle = \color[RGB]{0,192,192},
+    stringstyle = \color[RGB]{128,0,0},
+    rulesepcolor = \color[RGB]{102,102,102},
+    frame = shadowbox,
+    numbers = left,
+    numbersep = 7pt
+}
+
+%setup Chinese & English fonts
+%...
+%\setmainfont[Mapping=tex-text]{Times New Roman}
+\setmainfont[Mapping=tex-text]{Adobe Garamond Pro}
+\setmonofont{Courier 10 Pitch}
+\setCJKmainfont[BoldFont={Adobe Heiti Std}, ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
+\setCJKsansfont{Adobe Heiti Std}
+\setCJKmonofont{Adobe Fangsong Std}
+
+\punctstyle{hangmobanjiao}
+\parindent 2em
+\linespread{1.2}
+\setlist[description]{leftmargin=\parindent,labelindent=\parindent}
+
+%编号层次
+\setcounter{secnumdepth}{3} 
+\setcounter{tocdepth}{3} 
+
+%fix "no-break space" character error
+%\DeclareUnicodeCharacter{00A0}{~}
+
+%重命名
+\renewcommand {\contentsname }{目\qquad 录}
+\renewcommand {\listfigurename }{图\ 目\ 录}
+\renewcommand {\listtablename }{表\ 目\ 录}
+\renewcommand {\figurename }{图}
+\renewcommand {\tablename }{表}
+\renewcommand {\bibname }{参\ 考\ 文\ 献}
+\renewcommand{\equationautorefname}{公式}
+\renewcommand{\footnoteautorefname}{脚注}
+\renewcommand{\itemautorefname}{项}
+\renewcommand{\figureautorefname}{图}
+\renewcommand{\tableautorefname}{表}
+\renewcommand{\appendixautorefname}{附录}
+\renewcommand{\theoremautorefname}{定理}
+%\titleformat{\part}[display]{\centering\Huge}{\textbf{第~\thepart~部分}}{0.2cm}{}
+\titleformat{\chapter}[block]{\centering\Huge\bfseries}{\textbf{第~\thechapter~章}}{1em}{}
+\titleformat{\section}[block]{\LARGE\bfseries}{\textbf{\thesection}}{0.6em}{}
+\titleformat{\subsection}[block]{\large\bfseries}{\textbf{\thesubsection}}{0.4em}{}
+%自定义交叉引用
+\newcommand{\subsecref[1]}{~\ref{#1}~小节}
+%\newcommand{\tableref[1]}{表~\ref{#1}~}
+
+%页面边距
+\newgeometry{
+    top=25mm, bottom=25mm, left=30mm, right=20mm,
+    headsep=5mm, headheight=10mm, footskip=10mm,
+}
+\savegeometry{mgeometry}
+\loadgeometry{mgeometry}
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parindent}{2em}
+\setlength{\floatsep}{3pt plus 3pt minus 2pt}      % 图形之间或图形与正文之间的距离
+\setlength{\abovecaptionskip}{10pt plus 1pt minus 1pt} % 图形中的图与标题之间的距离
+\setlength{\belowcaptionskip}{3pt plus 1pt minus 2pt} % 表格中的表与标题之间的距离
+
+%标题页
+%Original author: Peter Wilson (herries.press@earthlink.net)
+\newcommand*{\plogo}{\fbox{$\mathcal{BUAALES}$}} % Generic publisher logo
+\newcommand*{\titleAT}{\begingroup % Create the command for including the title page in the document
+    \newlength{\drop} % Command for generating a specific amount of whitespace
+    \drop=0.1\textheight % Define the command as 10% of the total text height
+    
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    
+    \vspace{\drop} % Whitespace between the top lines and title
+    \centering % Center all text
+    \textcolor{Red}{ % Red font color
+        {\Huge Hake构建系统}\\[0.5\baselineskip] % Title line 1
+        {\Large OF}\\[0.75\baselineskip] % Title line 2
+        {\Huge Barrelfish}} % Title line 3
+    
+    \vspace{0.25\drop} % Whitespace between the title and short horizontal line
+    \rule{0.3\textwidth}{0.4pt}\par % Short horizontal line under the title
+    \vspace{\drop} % Whitespace between the thin horizontal line and the author name
+    
+    {\large \textsc{陈逊，孙思杰}}\par % Author name
+    
+    \vfill % Whitespace between the author name and publisher text
+    {\large \textcolor{Blue}{\plogo}}\\[0.5\baselineskip] % Publisher logo
+    {\large \textsc{北京航空航天大学}}\par % Publisher
+    
+    \vspace*{\drop} % Whitespace under the publisher text
+    
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    
+    \endgroup}
+
+\begin{document}
+    
+    \pagestyle{empty} % Removes page numbers
+    \titleAT % This command includes the title page
+    %\maketitle
+    %contents
+    
+    \tableofcontents
+    %\listoffigures
+    %\listoftables
+    
+    \chapter{简要概述}
+	
+    Hake是Barrelfish的所采用的构建工具，主要用于生成编译Barrelfish所需的Makefile文件，目前Hake工具只为Barrelfish而设计，不用于其他工程的构建。本文简单介绍Hake，以期读者能过理解Hake在Barrelfish编译中起到的作用，能理解简单的Hakefile文件，能根据自己的需求更改Hakefile文件和部分Hake程序参数。
+    
+	\section{快速入门}
+    
+    假定你的Barrelfish源码路径为：~/barrelfish/。
+    
+    为了编译Barrelfish，创建一个目录build，并进入该目录，运行Hake bootstrap脚本，最后执行Make：
+    
+    \begin{lstlisting}[language = Sh]
+    $ cd ~/barrelfish
+    $ mkdir build && cd build
+    $ ../hake/hake.sh -s ../ -a armv7
+    ......
+    $ make
+    ......
+    \end{lstlisting}
+    
+    你可以编辑build目录中的hake/Config.hs文件，来修改一些编译选项，一些编译选项如下，其它编译选项详见该文件：
+    \begin{description}
+        \item[gobal\_debug:] 开启或关闭全局DEBUG信息输出
+        \item[xxxx\_debug:] 开启或关闭xxxx DEBUG信心输出
+        \item[cOptFlags:] gcc编译器优化选项，默认为O2优化
+        \item[scheduler:] 内核线程调度器设置，支持RBED算法和RR算法
+    \end{description}
+	
+	\section{Hake简述}
+    
+    Hake本质上是基于Haskell语言的一种domain-specific语言，Hake包含一个hake主程序（这个程序本身也包含大量关于如何生成Makefile的信息），和一系列分布在代码树各个节点中的Hakefiles文件。每一个Hakefile可以看做为一个Haskell表达式，其可以被翻译成一系列的Make规则。
+    
+    当Hake主程序运行时，主要的流程如下：
+    
+    \begin{enumerate}
+        \item Hake建立一个记录每个文件和目录的列表。Hake会忽略的文件当前被硬编程进了主程序，包括编辑器临时文件，版本控制目录，build目录。
+        \item 在此基础上，Hake提取出代码树中所有Hakefile的列表。
+        \item Hake读取每一个Hakefile，将每个Hakefile中的表达式合并成单个Haskell表达式，并考虑Hakefile的路径。
+        \item Hake而后根据该表达式计算出Hake规则，最终生成一个单一巨大但语法简单易懂的Makefile。其没用使用任何Make变量和generic Make rules，而是简单地使用明确的规则去编译Barrelfish的每一个文件。
+    \end{enumerate}
+    
+    \section{Hake设计原则}
+    
+    下面简单介绍下Hake的设计原则：
+    
+    \begin{description}
+        \item [Hake应该是一个完全的编程语言：] 从数不清的构建系统得到的教训是，如果从一开始不以full programming language为目标来构建，那么最后将得不到好的实现（CMake就是一个实际的例子）。It's much easier to bite the bullet and admit that we need a complete language, and plenty are available for this.
+        \item [Hake应该是一个功能语言：]Make是一个权威的成功的描述语言，Hake不应该去尝试重复make已经做得很好的部分。
+        \item [Hake应该生成单个Makefile：]单一的Makefile易于调试，因为所有的信息都在同一个文件中，避免了在多层的include文件中跳转阅读。The only thing Hake-generated Makefiles include are generated C dependency lists, and a single, top-level file giving symbolic targets. 
+        \item [Hake为编译barrelfish而生：] Barrelfish团队没有声明过Hake适用于除Barrelfish之外的其他任何项目，当前的实现与Barrelfish代码树相关性高。
+    \end{description}
+    
+    \section{Hake的优劣势}
+    
+    采用Hake有如下优势：
+    
+    \begin{enumerate}
+        \item 简化Makefile的难度，编译调试信息更容易跟踪。
+        \item 简化构建平台分支的难度，事实上，不用学习Haskell就可以模仿现有分支实现新的平台分支。
+        \item Hake提供了丰富的选项，使得Barrelfish的构建更加自由和可定制。
+    \end{enumerate}
+    
+    劣势如下：
+    
+    \begin{enumerate}
+        \item 完全理解Hake需要更大了学习成本，加大了Barrelfish的理解难度。
+        \item Hake本身出现编译错误的调试难度目前较大。
+    \end{enumerate}
+    
+    \chapter{Hakefile简述}
+    
+    Hake在理论上可以构建任何东西，但Hake最基本的两个用途是：构建Barrelfish应用（用户空间），构建Barrelfish库。以Barrelfish的PCI驱动为例，其Hakefile文件如下：
+    
+    \begin{lstlisting}[language = Haskell]
+    [ build application {
+        target = "pci",
+        cFiles = [ "pcimain.c", "pci.c", "pci_service.c",
+            "ioapic.c", "acpi.c", "ht_config.c",
+            "acpica_osglue.c", "interrupts.c",
+            "pci_confspace.c", "pcie_confspace.c",
+            "video.c", "buttons.c", "acpi_ec.c" ],
+        flounderBindings = [ "pci" ],
+        flounderDefs = [ "monitor" ],
+        mackerelDevices = [ "pci_hdr0", "pci_hdr1",
+            "lpc_ioapic", "ht_config",
+            "lpc_bridge", "acpi_ec" ],
+        addIncludes = [ "acpica/include" ],
+        addCFlags = [ "-Wno-redundant-decls" ],
+        addLibraries = [ "mm", "acpi", "skb", "pci" ],
+        architectures = [ "x86_64", "x86_32" ]
+        }
+    ]
+    \end{lstlisting}
+    
+    最外层方括号表示的是一个Haskell的list表达式，每一个Hakefile都应该是这样一个list。这个list只有一个元素，即构建一个应用的指令（可以有多条，用逗号分隔）。
+    
+    build application指定了许多参数，这些参数都是可选的。这些参数实际上是Haskell record field specifiers，application 会返回一个完整的默认参数集。build然后生成构建该应用的Make规则。 
+    
+    关于可选参数的完整列表参见Args.hs文件\footnote{位于hake/Args.hs}。一些常见的参数解释如下：
+    \begin{description}
+        \item[target：] 目标二进制文件的名字。
+        \item[cFiles：] 用于编译的C文件列表。
+        \item[flounderBindings：] Flounder interface for which to compile the stub files.
+        \item[flounderDefs：] Flounder interfaces to use from a library.
+        \item[mackerelDevices：] 这个应用依赖的Mackerel设备空间\footnote{Mackerel是Barrelfish用于描述设备地址空间的一种语言，可被翻译为设备寄存器的IO接口}列表。
+        \item[addIncludes：] 添加额外的头文件（包含其路径）。
+        \item[addLibaries：] 需要额外链接的库文件。
+     \end{description}   
+     
+     需要注意的是所以的文件路径都是相对于当前的代码目录。那些以‘/’开头的路径是相对于代码根目录，而非文件系统根目录。
+     
+     与应用相似，构建库（Libraries）的Hakefile如下：
+     \begin{lstlisting}[language = Haskell]
+     [ build library {
+         target = "x86emu",
+         cFiles = [ "debug.c", "decode.c", "fpu.c", "ops2.c",
+             "ops.c", "prim_ops.c", "sys.c"],
+         addCFlags = ["-Wno-shadow" ]
+         }
+     ]
+     \end{lstlisting}
+     
+     了解的以上内容，你就能写一个简单的Hakefile文件，和理解Barrelfish代码树中绝大多数的Hakefile文件。如果你想进一步了解Hake的实现和运行机制可以参看Barrelfish关于Hake的官方文档。下面就一个具体的例子进一步了解Hakefile。
+     
+    \chapter{创建新平台分支}
+    
+    \section{概述}
+    
+    Barrelfish目前支持X86，X86\_64，ARMv7，ARMv8等架构，在ARMv7架构的板级支持上，实现了对ARM vExpressEMM(A9/A15)，PandaBoard\footnote{德州仪器的一款A9双核的板子}和Zynq7000\footnote{Xilinx的一款A9双核的板子}的支持。这一章以Jetson-tk1开发板为例，讲解如何在Barrelfish的构建系统中添加新的平台（platform）分支。
+    
+    在Barrelfish中，与平台分支关系最为密切的文件是platforms/Hakefile，里面包括了大多数与平台分支有关的定义。一般来说，在Barrelfish中创建新的分支主要分为一下几步：
+    
+    \begin{enumerate}
+        \item 添加模块列表：定义该平台运行需要的模块（Modules），包括内核和应用模块。
+        \item 添加平台定义：将平台名与模块定义，架构等绑定。
+        \item 添加启动镜像定义：定义与启动镜像(boot image)相关的参数。
+        \item 添加启动菜单定义：定义启动菜单（menu list）文件。
+        \item 添加启动规则定义：定义启动脚本（通过Qemu启动Barrelfish之类）。
+        \item 修改本平台涉及的模块构建Hakefile：与平台有关的内核和驱动模块等的Hakefile需要根据代码的变动进行修改。
+    \end{enumerate}
+    
+    以上便是创建分支的基本步骤，下面通过添加Jetson-tk1的分支支持，详细讲解添加代码分支的步骤。
+    
+    \section{代码实现}
+    
+    \subsection{添加模块列表}\label{subsec-module}
+    
+    Barrelfish通过模块列表，定义了需要编译生成的模块，这些模块将会被加载到启动镜像中，在Barrelfish启动过程中自动加载运行。添加的代码和注释如下：
+    
+    \begin{lstlisting}[language = Haskell]
+    -- ARMv7-A modules for Jetson-tk1 board 
+    jetsontk1Modules_A15 = [ "/sbin/" ++ f | f <- [
+                            "cpu_tegrak1", --内核模块
+                            "init", --init进程模块
+                            "kaluga", --kaluga设备管理模块
+                            "mem_serv",
+                            "monitor",
+                            "ramfsd",
+                            "serial_jetsontk1", --用户串口驱动
+                            "serial_kernel",
+                            "spawnd",
+                            "startd",
+                            "corectrl", --处理器核心控制模块
+                            "skb",
+                            "angler",
+                            "fish", --Barrelfish的Shell
+                            "memtest"
+                            ] ] 
+    \end{lstlisting}
+    
+    写模块列表定义时，可以参照已有模块复制修改，一般来说对内核模块和硬件相关驱动进行重命名。上面代码定义了名为jetsontk1Modules\_A15的模块列表。每个模块都定义在/sbin目录下，需要注意的是，该目录指的是barrelfish启动后的文件目录，通常完整的目录为/armv7(Arch\_name)/sbin。在Hakefile中用\lstinline|--|表示注释。
+    
+    \subsection{添加平台定义}
+    
+    在Barrelfish中，每一个平台都有一条对应的Make规则，用于构建对应的代码。在Hakefile文件中与该Make
+    规则对应的就是平台定义。
+    
+	\begin{lstlisting}[language = Haskell]
+   -- add JetsonTK1 platform
+   platform "JetsonTK1" [ "armv7" ]
+   ([ ("armv7", f) | f <- jetsontk1Modules_A15] ++
+    [ ("root", "/armv7_jetsontk1_image"),
+      ("root", "/armv7_jetsontk1_image-gdb.gdb") ])
+   "Standard Jetson TK1 build image and modules",
+    \end{lstlisting}
+    
+    上面的代码定义了一个叫JetsonTK1的平台，其体系结构为armv7，与其绑定的模块列表为jetsontk1Modules\_A15，生成的镜像文件名为armv7\_jetsontk1\_image。在编译过程中，Hake会将其翻译成一条JetsonTK1的规则，生成Makefile后，通过make JetsonTK1 -j5就能编译生成JetsonTK1的启动镜像。\textbf{需要注意的是，上面代码的第5行的字符串并不能省略，否则会导致Hake编译出现类型错误。}
+    
+    \subsection{添加启动镜像定义}
+    
+    启动镜像一般定义如下：
+    \begin{lstlisting}[language = Haskell]
+    armv7Image target bootTarget cpuTarget physBase modules,
+    \end{lstlisting}
+    
+    参数target定义了生成的最终平台镜像名（target\_image），参数bootTarget定义了bootDriver\footnote{进入arch\_init之前的部分，主要负责页表映射和开启MMU}的镜像名（/sbin/boot\_bootTaget），参数cpuTarget定义了cpuDriver的镜像名（/sbin/cpu\_cpuTarget），参数physBase指定了启动镜像的加载地址。参数modules指定了平台启动要加载的应用。参照PandaBoard写出Jetson-tk1的启动镜像定义如下：
+    
+    \begin{lstlisting}[language = Haskell]
+    -- Build the default Jetson-tk1 boot image
+    armv7Image "armv7_jetsontk1" "tegrak1" "tegrak1" "0x80000000" jetsontk1Modules_A15,
+    \end{lstlisting}
+    
+    这里生成的启动镜像名为/ build / armv7\_jetsontk1\_image，bootDriver镜像名为/ build / armv7 / sbin / boot\_tegrak1，cpuDriver镜像名为/ build / armv7 / sbin / cpu\_tegrak1，镜像加载地址为0x80000000\footnote{Jetson-tk1开发板的物理地址起始地址为0x80000000}。
+    
+    \subsection{添加启动菜单}
+    
+    启动菜单主要规定了在Barrelfish启动过程中会被加载的模块，包括模块名和命令行参数，除此之外，还规定了物理地址空间范围（包括设备空间和内核空间）。该文件一般命名为menu.lst.target，位于/hake文件夹中，例如Jetson-tk1的启动菜单文件名为menu.lst.armv7\_jetsontk1。部分Jetson-tk1的启动菜单如下：
+    
+    \begin{lstlisting}[language = Haskell]
+    kernel  /armv7/sbin/cpu_tegrak1 loglevel=3 periphbase=0x2c000000 consolePort=3
+    module  /armv7/sbin/cpu_tegrak1
+    module  /armv7/sbin/init
+    ......
+    # 1GB of RAM starting at 0x80000000
+    #        start       size       id
+    mmap map 0x00000000  0x80000000 13 # Device region
+    mmap map 0x80000000  0x40000000 1
+    \end{lstlisting}
+    
+    可以看到上面截取的部分启动菜单中，内核模块作为kernel和module分别写了一次\footnote{具体作用暂不明}，在作为kernel时，可以看看到其后跟有命令行参数。在启动菜单的最后，分别定义了内存空间和设备地址空间，其ID用于表示地址空间类型。
+    
+    在platforms/Hakefile中需要把该文件加入到对应的Rule中，位置如下：
+    \begin{lstlisting}[language = Haskell]
+    -- Copy menu.list files across
+    Rules [ copyFile SrcTree "root" ("/hake/menu.lst." ++ p)
+                     "root" ("/platforms/arm/menu.lst." ++ p)
+            | p <- [ "armv8_a57v",
+                     ......
+                     "armv7_jetsontk1", --添加Jetson-tk1的启动菜单
+                     "armv7_zynq7" ]],        
+    \end{lstlisting}
+    
+    \subsection{添加启动命令}
+    
+    这个定义使用与在Makefile中生成对应平台的启动命名，例如，调用qemu脚本启动Barrelfish。在这里Jetson-tk1，我们采用生成镜像文件，并利用U-boot\footnote{Jetson-tk1采用的bootloader}的tftp功能加载镜像文件到内存运行的方式启动Barrelfish，所以这里并不需要为Jetson-tk1添加启动命令。简单介绍A15在Qemu下启动命令定义：
+    
+    \begin{lstlisting}[language = Haskell]
+    boot "qemu_a15ve_4" [ "armv7" ] [ 
+    In SrcTree "tools" "/tools/qemu-wrapper.sh",
+    Str "--image", In BuildTree "root" "/armv7_a15ve_4_image",
+    Str "--arch", Str "a15ve",
+    Str "--smp", Str "4" ]
+    "Boot QEMU in 32-bit ARM mode emulating a Versatile Express board (4 cores)",
+    \end{lstlisting}
+    
+    这里的SrcTree指的是源代码的根目录，而BuildTree指的是构建目录的根目录。这条定义会被Hake翻译为一条Make规则，当在Shell中运行make boot qemu\_a15ve\_4时，会执行如下命令（假设当前目录为源代码根目录）：
+    
+    \begin{lstlisting}[language = Sh]
+    ./tools/qemu-wrapper.sh --image build/armv7_a15ve_4_image -arch a15ve --smp 4
+    \end{lstlisting}
+    
+    至此，我们对与platforms/Hakefile文件的修改基本结束了，我们在\subsecref[subsec-module]中提到，我们定义了新的cpuDriver镜像名（cpu\_tegrak1）和其他的一些设备启动模块，下面我们需要对cpuDriver构建Hakefile和用户驱动模块的构建Hakefile进行修改。
+    
+    \subsection{cpuDriver构建修改}
+    我们首先定位cpuDriver的Haekfile位置，其位于kernel/Hakefile。可以看到前面定义了通用的C文件集，在后面部分分别定义了各个平台的cpuDriver和bootDriver的构建规则。PandaBoardES的相关代码如下：
+    
+    \begin{lstlisting}[language = Haskell]
+      --
+      -- TI OMAP44xx-series dual-core Cortex-A9 SoC
+      --
+      bootDriver {
+          target = "omap44xx",
+          architectures = [ "armv7" ],
+          assemblyFiles = [ "arch/armv7/boot.S" ],
+          cFiles = [
+              ......
+              "arch/armv7/plat_omap44xx_boot.c",
+              "arch/armv7/plat_omap44xx_consts.c",
+              ......
+              "arch/arm/omap_uart.c"
+          ],
+          mackerelDevices = [ "arm",
+              "cpuid_arm",
+              "omap/omap44xx_cortexa9_wugen",
+              "omap/omap44xx_uart3"
+          ],
+          addLibraries = [ ]
+      },
+      
+      cpuDriver {
+          target = "omap44xx",
+          architectures = [ "armv7" ],
+          assemblyFiles = [ "arch/armv7/exceptions.S",
+                          "arch/armv7/set_stack_for_mode.S",
+                          "arch/armv7/bsp_start.S",
+                          "arch/armv7/cpu_start.S"
+          ],
+          cFiles = [
+              "arch/armv7/a9_gt.c",
+              "arch/armv7/a9_scu.c",
+              ......
+              "arch/arm/omap_uart.c"
+          ],
+          mackerelDevices = [ "arm",
+              "cpuid_arm",
+              ......
+          ],
+          addLibraries = [ "elf" ]
+      },
+    \end{lstlisting}
+    
+    可以看到，对于每个平台需要定义cpuDriver和bootDriver的构建规则，两者的定义方式相同，具体参数解释如下：
+    
+    \begin{description}
+        \item[target：] 定义具体的Platform，与platforms/Hakefile中的target对应。
+        \item[architectures：] 定义体系结构。
+        \item[assemblyFiles：] 编译需要的汇编文件。
+        \item[cFiles：] 编译需要的C文件。
+        \item[mackerelDevices：] 编译需要引用的设备IO接口。
+        \item[addLibaries：] 编译需要的额外库。
+    \end{description}
+    
+    可以看与硬件平台相关的主要涉及到体系结构相关和设备驱动相关的代码，完成对相关代码的移植后，替换掉cFiles和mackerelDevices的相关文件即可，\textbf{Jetson-tk1目前的Hakefile代码和注释如下}：
+    
+    \begin{lstlisting}[language = Haskell]
+      --
+      -- NVIDIA Jetson-tk1 ARMv7-A15 4-plus-1 SoC
+      --
+      bootDriver {
+          target = "tegrak1",
+          architectures = [ "armv7" ],
+          assemblyFiles = [ "arch/armv7/boot.S",
+                            "arch/armv7/cp15.S" --新版Cache刷新有BUG,用老版代替
+                          ],
+          cFiles = [
+              ......
+              "arch/armv7/plat_jetsontk1_boot.c", --APP核加电接口
+              "arch/armv7/plat_jetsontk1_consts.c", --UART相关常量
+              ......
+              "arch/arm/jetsontk1_uart.c" --UART驱动
+          ],
+          mackerelDevices = [ "arm",
+                              "cpuid_arm",
+                              "jetsontk1/jetson_exception_vectors", --用于启动APP核
+                              "jetsontk1/jetson_flow_controller", --用于启动APP核
+                              "jetsontk1/jetson_uart" --串口
+          ],
+          addLibraries = [ ]
+      },
+      
+       cpuDriver {
+           target = "tegrak1",
+           architectures = [ "armv7" ],
+           assemblyFiles = [ "arch/armv7/exceptions.S",
+                             "arch/armv7/set_stack_for_mode.S",
+                             "arch/armv7/bsp_start.S",
+                             "arch/armv7/cpu_start.S",
+                             "arch/armv7/cp15.S" --Cache刷新
+           ],
+           cFiles = [
+               "arch/armv7/a15_gt.c", --A15通用时钟驱动
+               ......
+               "arch/armv7/plat_a15mpcore.c", --A15中断，时钟驱动
+               "arch/armv7/plat_id.c",
+               "arch/armv7/plat_jetsontk1.c",
+               "arch/armv7/plat_jetsontk1_consts.c",
+               "arch/armv7/plat_priv_cbar.c",
+               ......
+               "arch/arm/jetsontk1_uart.c"
+           ],
+           mackerelDevices = [ "arm",
+                               "cpuid_arm",
+                               "pl130_gic",
+                               "jetsontk1/jetson_uart"
+           ],
+           addLibraries = [ "elf" ]
+       },
+    \end{lstlisting}
+    
+    对于其他用户驱动，如串口之类，找到对应的Hakefile文件，参照上文进行修改，修改方式与内核相似。
+    
+\end{document} 

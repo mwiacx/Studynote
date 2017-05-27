@@ -1,0 +1,149 @@
+\documentclass[a4paper, 12pt]{report}
+%import package
+%use xelatex to compile please ！
+\usepackage{amsmath}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage[svgnames, table]{xcolor}
+\usepackage{indentfirst}
+\usepackage[CJKchecksingle, CJKnumber]{xeCJK}
+%\usepackage{metalogo}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage[rm]{titlesec}% 改变章节标题格式
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+%code highlight
+\lstset{
+    language = C,
+    basicstyle = \ttfamily \small,
+    flexiblecolumns = false,
+    tabsize = 4,
+    breaklines = true,
+    basewidth = {0.5em, 0.45em},
+    boxpos = t,
+    backgroundcolor = \color[RGB]{245,245,244},
+    keywordstyle = \bf\color{blue},
+    %identifierstyle = \bf,
+    commentstyle = \color[RGB]{0,139,0},
+    numberstyle = \color[RGB]{0,192,192},
+    stringstyle = \color[RGB]{128,0,0},
+    rulesepcolor = \color[RGB]{102,102,102},
+    frame = shadowbox,
+    numbers = left,
+    numbersep = 7pt
+}
+
+%setup Chinese & English fonts
+%...
+%\setmainfont[Mapping=tex-text]{Times New Roman}
+\setmainfont[Mapping=tex-text]{Adobe Garamond Pro}
+\setmonofont{Courier 10 Pitch}
+\setCJKmainfont[BoldFont={Adobe Heiti Std}, ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
+\setCJKsansfont{Adobe Heiti Std}
+\setCJKmonofont{Adobe Fangsong Std}
+
+\punctstyle{hangmobanjiao}
+\parindent 2em
+\linespread{1.2}
+\setlist[description]{leftmargin=\parindent,labelindent=\parindent}
+
+%编号层次
+\setcounter{secnumdepth}{3} 
+\setcounter{tocdepth}{3} 
+
+%fix "no-break space" character error
+%\DeclareUnicodeCharacter{00A0}{~}
+
+%重命名
+\renewcommand {\contentsname }{目\qquad 录}
+\renewcommand {\listfigurename }{图\ 目\ 录}
+\renewcommand {\listtablename }{表\ 目\ 录}
+\renewcommand {\figurename }{图}
+\renewcommand {\tablename }{表}
+\renewcommand {\bibname }{参\ 考\ 文\ 献}
+\renewcommand{\equationautorefname}{公式}
+\renewcommand{\footnoteautorefname}{脚注}
+\renewcommand{\itemautorefname}{项}
+\renewcommand{\figureautorefname}{图}
+\renewcommand{\tableautorefname}{表}
+\renewcommand{\appendixautorefname}{附录}
+\renewcommand{\theoremautorefname}{定理}
+%\titleformat{\part}[display]{\centering\Huge}{\textbf{第~\thepart~部分}}{0.2cm}{}
+\titleformat{\chapter}[block]{\centering\Huge\bfseries}{\textbf{第~\thechapter~章}}{1em}{}
+\titleformat{\section}[block]{\LARGE\bfseries}{\textbf{\thesection}}{0.6em}{}
+\titleformat{\subsection}[block]{\large\bfseries}{\textbf{\thesubsection}}{0.4em}{}
+%自定义交叉引用
+\newcommand{\subsecref[1]}{~\ref{#1}~小节}
+%\newcommand{\tableref[1]}{表~\ref{#1}~}
+
+%页面边距
+\newgeometry{
+    top=25mm, bottom=25mm, left=30mm, right=20mm,
+    headsep=5mm, headheight=10mm, footskip=10mm,
+}
+\savegeometry{mgeometry}
+\loadgeometry{mgeometry}
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parindent}{2em}
+\setlength{\floatsep}{3pt plus 3pt minus 2pt}      % 图形之间或图形与正文之间的距离
+\setlength{\abovecaptionskip}{10pt plus 1pt minus 1pt} % 图形中的图与标题之间的距离
+\setlength{\belowcaptionskip}{3pt plus 1pt minus 2pt} % 表格中的表与标题之间的距离
+
+%标题页
+%Original author: Peter Wilson (herries.press@earthlink.net)
+\newcommand*{\plogo}{\fbox{$\mathcal{BUAALES}$}} % Generic publisher logo
+\newcommand*{\titleAT}{\begingroup % Create the command for including the title page in the document
+    \newlength{\drop} % Command for generating a specific amount of whitespace
+    \drop=0.1\textheight % Define the command as 10% of the total text height
+    
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    
+    \vspace{\drop} % Whitespace between the top lines and title
+    \centering % Center all text
+    \textcolor{Red}{ % Red font color
+        {\Huge Overview（翻译版）}\\[0.5\baselineskip] % Title line 1
+        {\Large OF}\\[0.75\baselineskip] % Title line 2
+        {\Huge Barrelfish}} % Title line 3
+    
+    \vspace{0.25\drop} % Whitespace between the title and short horizontal line
+    \rule{0.3\textwidth}{0.4pt}\par % Short horizontal line under the title
+    \vspace{\drop} % Whitespace between the thin horizontal line and the author name
+    
+    {\large \textsc{陈逊，孙思杰}}\par % Author name
+    
+    \vfill % Whitespace between the author name and publisher text
+    {\large \textcolor{Blue}{\plogo}}\\[0.5\baselineskip] % Publisher logo
+    {\large \textsc{北京航空航天大学}}\par % Publisher
+    
+    \vspace*{\drop} % Whitespace under the publisher text
+    
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    
+    \endgroup}
+
+\begin{document}
+    
+    \pagestyle{empty} % Removes page numbers
+    \titleAT % This command includes the title page
+    %\maketitle
+    %contents
+    
+    \tableofcontents
+    %\listoffigures
+    %\listoftables
+	
+	\chapter{iref管理}
+	
+	\section{整体设计}
+	
+	\subsection{数据结构}
+	
+\end{document} 

@@ -1,0 +1,295 @@
+\documentclass[a4paper, 12pt]{report}
+%import package
+%use xelatex to compile please ！
+\usepackage{amsmath}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage[svgnames, table]{xcolor}
+\usepackage{indentfirst}
+\usepackage[CJKchecksingle, CJKnumber]{xeCJK}
+%\usepackage{metalogo}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage[rm]{titlesec}% 改变章节标题格式
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+%code highlight
+\lstset{
+    language = C,
+    basicstyle = \ttfamily \small,
+    flexiblecolumns = false,
+    tabsize = 4,
+    breaklines = true,
+    basewidth = {0.5em, 0.45em},
+    boxpos = t,
+    backgroundcolor = \color[RGB]{245,245,244},
+    keywordstyle = \bf\color{blue},
+    %identifierstyle = \bf,
+    commentstyle = \color[RGB]{0,139,0},
+    numberstyle = \color[RGB]{0,192,192},
+    stringstyle = \color[RGB]{128,0,0},
+    rulesepcolor = \color[RGB]{102,102,102},
+    frame = shadowbox,
+    numbers = left,
+    numbersep = 7pt
+}
+
+%setup Chinese & English fonts
+%...
+%\setmainfont[Mapping=tex-text]{Times New Roman}
+\setmainfont[Mapping=tex-text]{Adobe Garamond Pro}
+\setmonofont{Courier 10 Pitch}
+\setCJKmainfont[BoldFont={Adobe Heiti Std}, ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
+\setCJKsansfont{Adobe Heiti Std}
+\setCJKmonofont{Adobe Fangsong Std}
+
+\punctstyle{hangmobanjiao}
+\parindent 2em
+\linespread{1.2}
+\setlist[description]{leftmargin=\parindent,labelindent=\parindent}
+
+%编号层次
+\setcounter{secnumdepth}{3} 
+\setcounter{tocdepth}{3} 
+
+%fix "no-break space" character error
+%\DeclareUnicodeCharacter{00A0}{~}
+
+%重命名
+\renewcommand {\contentsname }{目\qquad 录}
+\renewcommand {\listfigurename }{图\ 目\ 录}
+\renewcommand {\listtablename }{表\ 目\ 录}
+\renewcommand {\figurename }{图}
+\renewcommand {\tablename }{表}
+\renewcommand {\bibname }{参\ 考\ 文\ 献}
+\renewcommand{\equationautorefname}{公式}
+\renewcommand{\footnoteautorefname}{脚注}
+\renewcommand{\itemautorefname}{项}
+\renewcommand{\figureautorefname}{图}
+\renewcommand{\tableautorefname}{表}
+\renewcommand{\appendixautorefname}{附录}
+\renewcommand{\theoremautorefname}{定理}
+%\titleformat{\part}[display]{\centering\Huge}{\textbf{第~\thepart~部分}}{0.2cm}{}
+\titleformat{\chapter}[block]{\centering\Huge\bfseries}{\textbf{第~\thechapter~章}}{1em}{}
+\titleformat{\section}[block]{\large\bfseries}{\textbf{\thesection}}{0.7em}{}
+\titleformat{\subsection}[block]{\large\bfseries}{\textbf{\thesubsection}}{0.5em}{}
+%自定义交叉引用
+\newcommand{\secref[1]}{~\ref{#1}节}
+\newcommand{\subsecref[1]}{~\ref{#1}小节}
+%\newcommand{\tableref[1]}{表~\ref{#1}~}
+
+%页面边距
+\newgeometry{
+    top=25mm, bottom=25mm, left=20mm, right=20mm,
+    headsep=5mm, headheight=10mm, footskip=10mm,
+}
+\savegeometry{mgeometry}
+\loadgeometry{mgeometry}
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parindent}{2em}
+\setlength{\floatsep}{3pt plus 3pt minus 2pt}      % 图形之间或图形与正文之间的距离
+\setlength{\abovecaptionskip}{10pt plus 1pt minus 1pt} % 图形中的图与标题之间的距离
+\setlength{\belowcaptionskip}{3pt plus 1pt minus 2pt} % 表格中的表与标题之间的距离
+
+%标题页
+%Original author: Peter Wilson (herries.press@earthlink.net)
+\newcommand*{\plogo}{\fbox{$\mathcal{BuaaLes}$}} % Generic publisher logo
+\newcommand*{\titleAT}{\begingroup % Create the command for including the title page in the document
+    \newlength{\drop} % Command for generating a specific amount of whitespace
+    \drop=0.1\textheight % Define the command as 10% of the total text height
+    
+    \centering % Center all text
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    
+    \vspace{\drop} % Whitespace between the top lines and title
+    \textcolor{Red}{ % Red font color
+        {\Huge Barrelfish验证报告}\\[0.5\baselineskip] % Title line 1
+        {\Large 自裁剪和中断分发}} % Title line 3
+    
+    \vspace{0.25\drop} % Whitespace between the title and short horizontal line
+    \rule{0.3\textwidth}{0.4pt}\par % Short horizontal line under the title
+    \vspace{\drop} % Whitespace between the thin horizontal line and the author name
+    
+    {\Large 陈~~~~逊}\par % Author name
+    {\Large 孙思杰}\par % Student ID
+    
+    \vfill % Whitespace between the author name and publisher text
+    %%{\large \textcolor{Blue}{\plogo}}\\[0.5\baselineskip] % Publisher logo
+    {\large \textsc{POWERED BY \LaTeX}}\par % Publisher
+    
+    \vspace*{\drop} % Whitespace under the publisher text
+    
+    \rule{\textwidth}{0.4pt}\par % Thin horizontal line
+    \vspace{2pt}\vspace{-\baselineskip} % Whitespace between lines
+    \rule{\textwidth}{1pt}\par % Thick horizontal line
+    
+    \endgroup}
+
+\begin{document}
+    
+    \pagestyle{empty} % Removes page numbers
+    \titleAT % This command includes the title page
+    
+    \newpage
+    
+    \tableofcontents
+    
+    \newpage
+    
+    \chapter{自裁剪论证}
+    
+    \section{Hakefile生成的目标文件类型}
+    
+    Hakefile文件定义了两种生成目标。一种是库，另一种是应用程序。
+    
+    \section{库的生成}
+    
+    在Barrelfish源码树中的lib文件夹中，包含所有可能用到的库。
+    
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[scale=0.75]{./img1.png}
+        \caption{lib列表}
+        \label{fig:lib_img}
+    \end{figure}
+    
+    在每个库的根目录下，有一个Hakefile，定义了生成的Library目标文件以及该Library需要的所有C文件。
+    
+    \begin{lstlisting}
+    build library 
+    { 
+        target = "vfs",
+        cFiles = [ "vfs.c", "vfs_path.c", "fopen.c", "mmap.c"],
+        mackerelDevices = [ "ata_identify", "fat_bpb", "fat16_ebpb"],
+        flounderBindings = [ "trivfs", "bcache", "ahci_mgmt", "ata_rw28" ],
+        flounderExtraBindings=[("trivfs",["rpcclient"]), ("bcache", ["rpcclient"])],
+        flounderDefs = [ "monitor" ]
+    },
+    \end{lstlisting}
+    
+    在由此Hakefile生成的Makefile对应的规则中，生成的目标文件是<库名称>.a。库的所有c文件都会分别生成一个.o文件，所有的.o文件打包在一起成为了.a文件。
+    
+    \section{应用程序的生成}
+    
+    此处以Barrelfish提供的fish程序为例进行论证。
+
+    在fish程序源码根目录中的Hakefile文件中有如下声明。
+    
+    \begin{lstlisting}
+    build application 
+    { 
+        target = "fish",
+        cFiles = [ "fish_common.c", "fish_arm.c", "font.c" ],
+        flounderExtraBindings = [("octopus", ["rpcclient"])],	
+        addLibraries = libDeps ["trace", "skb", "vfs_ramfs", "lwip", "octopus", "linenoise", 							"posixcompat" ],
+        flounderBindings = [ "pixels" ],
+        architectures = [  "armv7", "armv8" ]              
+    }
+    \end{lstlisting}
+    
+    其中addLibraries定义了fish程序需要链接的库文件。
+
+    影响最终生成文件大小的只与应用程序包含的C文件以及引用的库有关。
+
+    生成的Makefile对应的规则中，先由fish程序所有的c文件生成对应的.o文件（由Hakefile中的cFiles字段定义）。在生成可执行文件时，把前一步生成的所有.o文件以及addLibraries字段中定义的库所对应的.a文件作为gcc的输入文件。然后就可以生成可执行文件了。
+
+    addLibraries字段与裁剪的关系不大，若此处定义的库多余实际所需要的库，也并不会把多余的库的代码实际链接进目标程序。此处只是定义了依赖关系，当被依赖的库的代码改变时，将会使用改动后的库重新链接该应用程序。
+
+    应用程序的C文件会调用一些库函数，GCC在链接所有输入文件时，只有被调用的库函数所在的C文件所生成的.o文件才会被实际链接到最终生成的文件中。因此，生成的可执行文件中包含的都是有用的代码，是裁剪之后的结果。
+    
+    \section{操作系统镜像的生成}
+    
+    操作系统镜像包含了boot driver, cpu driver以及Monitor, memory server, fish等一系列可执行文件。镜像是由arm\_bootimage工具生成的，该工具会读取指定的menu.lst文件。Menu.lst文件的格式如下所示。
+    
+    \begin{lstlisting}
+    title	Barrelfish
+
+    #root	(nd)
+    kernel	/armv7/sbin/cpu_a15ve loglevel=3 periphbase=0x2c000000 consolePort=0
+    module	/armv7/sbin/cpu_a15ve
+    module	/armv7/sbin/init
+    
+    # Domains spawned by init
+    module	/armv7/sbin/mem_serv
+    module	/armv7/sbin/monitor
+    
+    # Special boot time domains spawned by monitor
+    module /armv7/sbin/ramfsd boot
+    module /armv7/sbin/skb boot
+    modulenounzip /eclipseclp_ramfs.cpio.gz nospawn
+    modulenounzip /skb_ramfs.cpio.gz nospawn
+    module /armv7/sbin/kaluga boot add_device_db=plat_VE_A15x4
+    module /armv7/sbin/spawnd boot
+    module /armv7/sbin/startd boot
+    
+    # Device drivers
+    # module /armv7/sbin/serial_pl011 auto
+    module /armv7/sbin/serial_kernel irq=37
+    module /armv7/sbin/corectrl auto
+    
+    # General user domains
+    module /armv7/sbin/angler serial0.terminal dumb
+    module /armv7/sbin/fish nospawn
+    
+    module /armv7/sbin/memtest
+    
+    # gem5 simulates 512MB of RAM starting at 0x80000000
+    #        start       size       id
+    mmap map 0x00000000  0x80000000 13 # Device region
+    mmap map 0x80000000  0x20000000 1
+    \end{lstlisting}
+    
+    该文件中定义了所有需要被打包到镜像中的内核以及用户空间程序。当不需要某项功能时，只需要在menu.lst文件中将相应的声明项去掉即可。
+
+    因此，通过对menu.lst文件的修改，可以实现模块级别的裁剪。
+    
+    \chapter{中断分发}
+    
+    \section{ARMv7-a 中断处理}
+    
+    在中断控制器的寄存器中有一个名字为Interrupt Processor Targets Registers的寄存器，其负责指定每一个中断对应的Target，及谁来负责这个中断的处理。该寄存器可以指定一个Core，也可以指定多个Core，例如字段0b011表示由Core 0和Core 1来响应该中断。
+    
+    \textbf{当Target寄存器只指定单个Core响应中断时，中断被转发到该Core处理。}
+    
+    当Target寄存器只指定多个Core响应中断时，ARM GICv2中规定了中断的处理模式有两种，一种是1-N模式，第二种是N-N模式。
+    
+    \begin{description}
+        \item[1-N模式] \textcolor{red}{Only one processor handles this interrupt.} The system must implement a mechanism to determine which processor handles an interrupt that is programmed to target more than one processor.
+        \item[N-N模式] \textcolor{red}{All processors receive the interrupt independently.} When a processor acknowledges the interrupt, the interrupt pending state is cleared only for that processor. The interrupt remains pending for the other processors.
+    \end{description}
+    
+    \section{Barrelfish中断处理}
+    
+    \subsection{中断控制器驱动}
+    
+    \begin{lstlisting}[language=C]
+    void gic_enable_interrupt(uint32_t int_id, uint8_t cpu_targets, uint16_t prio,
+                              bool edge_triggered, bool one_to_n)
+    \end{lstlisting}
+    
+    Barrelfish在使能一个中断的接口函数上给出了cpu\_targets和one\_to\_n，前者指定响应的Core，后者表明是1-N还是N-N。所以在驱动实现上，对于我们组会上关心的问题是功能完备的。
+    
+    \subsection{中断系统调用}
+   
+    Barrelfish给出了irq\_table\_set的系统调用，在实现上我们找出中断控制器的设置部分。
+    \begin{lstlisting}
+    gic_enable_interrupt(nidt, BIT(my_core_id), 0,
+                         GIC_IRQ_EDGE_TRIGGERED, GIC_IRQ_N_TO_N);
+    \end{lstlisting}
+    可以看到只有简单的一句话，含义是使能nidt给出的中断，由my\_core\_id指定的Core负责将该中断转发给用户驱动，即在哪注册，在哪处理。GIC\_IRQ\_EDGE\_TRIGGERED指定中断触发方式为边缘触发。并指定多Target时的处理模式为N-N。
+    
+    .
+    
+    .
+    
+    .
+         
+    以上就是Barrelfish现有的IRQ分发机制。如果要实现复杂一点的机制可以在中断系统调用上实现。
+    
+    
+\end{document}
